@@ -3,15 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:warehouse_app.ViewModel"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         WindowStartupLocation="CenterScreen"
         Title="{Binding AppTitle}"
         mc:Ignorable="d"
         Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="AutoCompleteBoxItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding Name}" Width="200" FontWeight="Bold"/>
+                <Label Content="{Binding Category.Name}" Foreground="DarkGray" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" Margin="10">
             <TextBlock Text="Введение название товара:"/>
-
+            <toolkit:AutoCompleteBox  ItemsSource="{Binding Products}"
+    SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" ValueMemberPath="Name"
+    ItemTemplate="{StaticResource AutoCompleteBoxItemTemplate}" ItemFilter="{Binding ProductFilter}"></toolkit:AutoCompleteBox>
+            <Button Content="Добавить" Command="{Binding Path=AddProductCommand}" HorizontalAlignment="Right" Width="90" Height="35" Margin="0,5,0,0"></Button>
         </StackPanel>
     </Grid>
 </Window>
