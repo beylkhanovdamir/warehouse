@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace warehouse_app
 {
@@ -13,5 +7,10 @@ namespace warehouse_app
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            MainWindow view = new MainWindow { DataContext = new ViewModel.ProductViewModel() };
+            view.Show();
+        }
     }
 }
