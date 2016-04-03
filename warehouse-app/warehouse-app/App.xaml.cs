@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using warehouse_app.ViewModel;
 
 namespace warehouse_app
 {
@@ -9,7 +10,7 @@ namespace warehouse_app
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow view = new MainWindow { DataContext = new ViewModel.ProductViewModel() };
+            MainWindow view = new MainWindow { DataContext = new ProductViewModel() };
             view.Show();
         }
     }

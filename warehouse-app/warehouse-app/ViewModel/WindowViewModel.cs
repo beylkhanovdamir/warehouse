@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 using warehouse_app.Model;
 
 namespace warehouse_app.ViewModel
@@ -25,5 +28,7 @@ namespace warehouse_app.ViewModel
             _appSettings = new AppSettings();
         }
 
+        public static readonly ICommand CloseCommand =
+        new RelayCommand(o => ((Window)o).Close());
     }
 }

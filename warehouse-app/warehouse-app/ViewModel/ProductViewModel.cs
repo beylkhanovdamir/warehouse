@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
@@ -14,6 +12,8 @@ namespace warehouse_app.ViewModel
         private readonly Product _product;
         //
         private DelegateCommand _addProductCommand;
+        private DelegateCommand _addCategoryCommand;
+
 
         #endregion
 
@@ -55,10 +55,40 @@ namespace warehouse_app.ViewModel
             // todo
         }
 
+        public ICommand AddCategoryCommand
+        {
+            get
+            {
+                if (_addCategoryCommand == null)
+                {
+                    _addCategoryCommand = new DelegateCommand(ExecuteAddCategory, CanExecuteAddCategory);
+                }
+                return _addCategoryCommand;
+            }
+        }
+
+        private bool CanExecuteAddCategory()
+        {
+            // todo
+            return true;
+        }
+
+        private void ExecuteAddCategory()
+        {
+            // todo
+            var vm = new AddCategoryViewModel();
+            AddCategoryWindow categoryWindow = new AddCategoryWindow { DataContext = vm };
+            categoryWindow.ShowDialog();
+        }
+
 
         #endregion
 
         #region Public props
+
+        public IEnumerable<Category> Categories { get; set; }
+
+        public Category SelectedCategory { get; set; }
 
         public string Name
         {
@@ -76,6 +106,9 @@ namespace warehouse_app.ViewModel
 
         public Product SelectedProduct { get; set; }
 
+        #endregion
+
+        #region Other
         public AutoCompleteFilterPredicate<object> ProductFilter
         {
             get
@@ -87,7 +120,6 @@ namespace warehouse_app.ViewModel
                 };
             }
         }
-
         #endregion
 
     }
