@@ -6,12 +6,14 @@
         xmlns:local="clr-namespace:warehouse_app.ViewModel"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowState="Normal"
         Title="Добавление категории" Height="150" Width="300">
+
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Введите название категории"></TextBlock>
-            <TextBox Text="{Binding Path=Name, Mode=TwoWay}" Height="25"></TextBox>
+            <TextBox Text="{Binding Path=Name,Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged,
+    NotifyOnValidationError=True}" Height="25"></TextBox>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
-                <Button Content="Сохранить" Height="35" Width="90" Command="{Binding Path=AddCategoryCommand}"></Button>
+                <Button Content="Сохранить" Height="35" Width="90" Command="{Binding Path=SaveCategoryCommand}"></Button>
                 <Button Content="Отмена" Margin="5,0,0,0" Height="35" Width="90" Command="{x:Static local:WindowViewModel.CloseCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></Button>
             </StackPanel>

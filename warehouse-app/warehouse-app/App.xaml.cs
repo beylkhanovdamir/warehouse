@@ -10,6 +10,8 @@ namespace warehouse_app
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            IocKernel.Initialize(new CustomBindings());
+
             MainWindow view = new MainWindow { DataContext = new ProductViewModel() };
             view.Show();
         }

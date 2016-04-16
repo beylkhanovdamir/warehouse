@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using warehouse_app.DataAccess;
 
 
 namespace warehouse_app

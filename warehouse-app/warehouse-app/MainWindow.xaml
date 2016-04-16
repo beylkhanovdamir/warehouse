@@ -9,10 +9,11 @@
         mc:Ignorable="d"
         Height="350" Width="525">
     <Window.Resources>
+        
         <DataTemplate x:Key="AutoCompleteBoxItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding Name}" Width="200" FontWeight="Bold"/>
-                <Label Content="{Binding Category.Name}" Foreground="DarkGray" />
+                <Label Content="{Binding Category.CategoryName}" Foreground="DarkGray" />
             </StackPanel>
         </DataTemplate>
     </Window.Resources>

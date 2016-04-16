@@ -24,8 +24,8 @@ namespace warehouse_app.ViewModel
             this._product = new Product();
             Products = new List<Product>()
             {
-                new Product() { Category= new Category() {Id=1, Name = "Сигареты"}, Id = 1, Name = "Winston" },
-                new Product() { Category= new Category() {Id=2, Name = "Хлеб"}, Id = 2, Name = "Городской батон" }
+                new Product() { Category= new Category() {CategoryName = "Сигареты"}, Name = "Winston" },
+                new Product() { Category= new Category() {CategoryName = "Хлеб"}, Name = "Городской батон" }
             };
         }
         #endregion
@@ -78,7 +78,7 @@ namespace warehouse_app.ViewModel
             // todo
             var vm = new AddCategoryViewModel();
             AddCategoryWindow categoryWindow = new AddCategoryWindow { DataContext = vm };
-            categoryWindow.ShowDialog();
+            categoryWindow.Show();
         }
 
 
@@ -116,7 +116,7 @@ namespace warehouse_app.ViewModel
                 return (searchText, obj) =>
                 {
                     var product = obj as Product;
-                    return product != null && (product.Name.ToLower().Contains(searchText.ToLower()) || (product.Category.Name.ToLower().Contains(searchText.ToLower())));
+                    return product != null && (product.Name.ToLower().Contains(searchText.ToLower()) || (product.Category.CategoryName.ToLower().Contains(searchText.ToLower())));
                 };
             }
         }
