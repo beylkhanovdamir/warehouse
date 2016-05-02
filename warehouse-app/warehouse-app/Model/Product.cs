@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 using warehouse_app.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace warehouse_app.Model
 {
@@ -12,7 +12,7 @@ namespace warehouse_app.Model
         private string _name;
         private Category _category;
 
-        [JsonRequired]
+        [Required]
         public string Name {
             get { return _name; }
             set
@@ -25,7 +25,7 @@ namespace warehouse_app.Model
             }
         }
 
-        [JsonRequired]
+        [Required]
         public Category Category {
             get { return _category; }
             set

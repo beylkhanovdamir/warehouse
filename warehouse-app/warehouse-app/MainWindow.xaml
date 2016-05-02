@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Height="350" Width="525">
     <Window.Resources>
-        
         <DataTemplate x:Key="AutoCompleteBoxItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding Name}" Width="200" FontWeight="Bold"/>
@@ -24,6 +23,7 @@
                     <MenuItem Header="_Добавить категорию" Command="{Binding Path=AddCategoryCommand}"/>
                     <MenuItem Header="_Добавить продукт" Command="{Binding Path=AddProductCommand}"/>
                 </MenuItem>
+                <MenuItem Header="_Синхронизировать данные" Command="{Binding Path=SyncCommand}"></MenuItem>
             </Menu>
             <StackPanel Orientation="Vertical" Margin="10">
                 <TextBlock Text="Введение название товара:"/>
@@ -33,6 +33,6 @@
                 <Button Content="Добавить" Command="{Binding Path=AddProductCommand}" HorizontalAlignment="Right" Width="90" Height="35" Margin="0,5,0,0"></Button>
             </StackPanel>
         </DockPanel>
-        
+
     </Grid>
 </Window>

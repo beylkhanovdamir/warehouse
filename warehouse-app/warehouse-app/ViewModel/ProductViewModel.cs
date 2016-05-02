@@ -27,6 +27,7 @@ namespace warehouse_app.ViewModel
                 new Product() { Category= new Category() {CategoryName = "Сигареты"}, Name = "Winston" },
                 new Product() { Category= new Category() {CategoryName = "Хлеб"}, Name = "Городской батон" }
             };
+
         }
         #endregion
 
@@ -53,6 +54,9 @@ namespace warehouse_app.ViewModel
         private void ExecuteAddProduct()
         {
             // todo
+            var vm = new AddProductViewModel();
+            AddProductWindow productWindow = new AddProductWindow { DataContext = vm };
+            productWindow.ShowDialog();
         }
 
         public ICommand AddCategoryCommand
@@ -78,7 +82,7 @@ namespace warehouse_app.ViewModel
             // todo
             var vm = new AddCategoryViewModel();
             AddCategoryWindow categoryWindow = new AddCategoryWindow { DataContext = vm };
-            categoryWindow.Show();
+            categoryWindow.ShowDialog();
         }
 
 

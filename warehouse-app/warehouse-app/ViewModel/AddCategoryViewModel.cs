@@ -13,7 +13,6 @@ namespace warehouse_app.ViewModel
     {
         private readonly Category _category;
         private DelegateCommand _saveCategoryCommand;
-        public IWarehouseManager WarehouseManager => IocKernel.Get<IWarehouseManager>();
 
         public AddCategoryViewModel()
         {
@@ -30,7 +29,7 @@ namespace warehouse_app.ViewModel
 
         private void ExecuteSaveCategory()
         {
-            WarehouseManager.SaveCategory(_category);
+            WarehouseManager.Save(_category, ModelType.Categories);
         }
 
         public string Name

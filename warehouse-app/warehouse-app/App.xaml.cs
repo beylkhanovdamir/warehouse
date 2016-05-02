@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Runtime.Caching;
+using System.Windows;
 using warehouse_app.ViewModel;
 
 namespace warehouse_app
@@ -8,6 +10,10 @@ namespace warehouse_app
     /// </summary>
     public partial class App : Application
     {
+        public string FilesPath => ConfigurationManager.AppSettings.Get("jsonPath");
+
+        public ObjectCache Cache = MemoryCache.Default;
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             IocKernel.Initialize(new CustomBindings());

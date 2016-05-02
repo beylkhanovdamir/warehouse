@@ -63,6 +63,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -94,11 +96,13 @@
       <DependentUpon>AddProductWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomBindings.cs" />
+    <Compile Include="DataAccess\DataCache.cs" />
     <Compile Include="DataAccess\IWarehouseManager.cs" />
     <Compile Include="DataAccess\WarehouseManager.cs" />
     <Compile Include="IocKernel.cs" />
     <Compile Include="Model\AppSettings.cs" />
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\ModelType.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModel\AddCategoryViewModel.cs" />
