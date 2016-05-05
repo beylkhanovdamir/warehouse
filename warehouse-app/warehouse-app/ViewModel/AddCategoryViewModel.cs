@@ -30,9 +30,15 @@ namespace warehouse_app.ViewModel
         private void ExecuteSaveCategory()
         {
             WarehouseManager.Save(_category, ModelType.Categories);
+	        Clear();
         }
 
-        public string Name
+	    private void Clear()
+	    {
+		    Name = string.Empty;
+	    }
+
+	    public string Name
         {
             get { return _category.CategoryName; }
             set

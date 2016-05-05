@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
+using warehouse_app.DataAccess;
 using warehouse_app.Model;
 
 namespace warehouse_app.ViewModel
@@ -21,14 +22,10 @@ namespace warehouse_app.ViewModel
 
         public ProductViewModel()
         {
-            this._product = new Product();
-            Products = new List<Product>()
-            {
-                new Product() { Category= new Category() {CategoryName = "Сигареты"}, Name = "Winston" },
-                new Product() { Category= new Category() {CategoryName = "Хлеб"}, Name = "Городской батон" }
-            };
-
-        }
+			this._product = new Product();
+			DataCache.Instance().Sync();
+			Products = DataCache.Instance().Products;
+		}
         #endregion
 
         #region Commands
@@ -90,10 +87,6 @@ namespace warehouse_app.ViewModel
 
         #region Public props
 
-        public IEnumerable<Category> Categories { get; set; }
-
-        public Category SelectedCategory { get; set; }
-
         public string Name
         {
             get { return _product.Name; }
@@ -106,7 +99,7 @@ namespace warehouse_app.ViewModel
             set { _product.Category = value; }
         }
 
-        public IEnumerable<Product> Products { get; set; }
+	    public IEnumerable<Product> Products { get; }
 
         public Product SelectedProduct { get; set; }
 

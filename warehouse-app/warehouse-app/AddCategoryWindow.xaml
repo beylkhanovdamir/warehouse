@@ -13,7 +13,7 @@
             <TextBox Text="{Binding Path=Name,Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged,
     NotifyOnValidationError=True}" Height="25"></TextBox>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
-                <Button Content="Сохранить" Height="35" Width="90" Command="{Binding Path=SaveCategoryCommand}"></Button>
+                <Button Content="Сохранить" Height="35" Width="90" Command="{Binding Path=SaveCategoryCommand}" Focusable="True"></Button>
                 <Button Content="Отмена" Margin="5,0,0,0" Height="35" Width="90" Command="{x:Static local:WindowViewModel.CloseCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></Button>
             </StackPanel>

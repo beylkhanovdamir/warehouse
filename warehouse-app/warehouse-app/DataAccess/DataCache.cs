@@ -26,28 +26,30 @@ namespace warehouse_app.DataAccess
 
         public CacheItemPolicy Policy = new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(Convert.ToDouble(ConfigurationManager.AppSettings.Get("cacheExpiration"))) };
 
-        public IList<Product> Products { get; set; }
+        public IList<Product> Products => Cache[ModelType.Products.ToString()] as IList<Product>;
 
-        public IList<Category> Categories { get; set; }
+		public IList<Category> Categories => Cache[ModelType.Categories.ToString()] as IList<Category>;
 
-        public IWarehouseManager WarehouseManager => IocKernel.Get<IWarehouseManager>();
+	    public IWarehouseManager WarehouseManager => IocKernel.Get<IWarehouseManager>();
 
         public void Sync()
         {
-            Products = Cache[ModelType.Products.ToString()] as IList<Product>;
-
             if (Products == null)
             {
                 var products = WarehouseManager.Load<Product>(ModelType.Products);
-                Cache.Add(ModelType.Products.ToString(), products, Policy);
+	            if (products != null)
+	            {
+		            Cache.Add(ModelType.Products.ToString(), products, Policy);
+	            }
             }
-
-            Categories = Cache[ModelType.Categories.ToString()] as IList<Category>;
 
             if (Categories == null)
             {
                 var categories = WarehouseManager.Load<Category>(ModelType.Categories);
-                Cache.Add(ModelType.Categories.ToString(), categories, Policy);
+	            if (categories != null)
+	            {
+		            Cache.Add(ModelType.Categories.ToString(), categories, Policy);
+	            }
             }
         }
 

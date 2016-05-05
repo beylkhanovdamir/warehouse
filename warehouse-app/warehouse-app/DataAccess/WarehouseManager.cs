@@ -1,58 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using Newtonsoft.Json;
 using warehouse_app.Model;
 
 namespace warehouse_app.DataAccess
 {
-    public class WarehouseFileManager : IWarehouseManager
-    {
-        public string FilesPath => ((App)Application.Current).FilesPath;
+	public class WarehouseFileManager : IWarehouseManager
+	{
+		public string FilesPath => ((App)Application.Current).FilesPath;
 
-        public WarehouseFileManager()
-        {
-            CheckPath();
-        }
+		public WarehouseFileManager()
+		{
+			CheckPath();
+		}
 
-        private void CheckPath()
-        {
-            if (!Directory.Exists(FilesPath))
-            {
-                Directory.CreateDirectory(FilesPath);
-            }
-        }
+		private void CheckPath()
+		{
+			if (!Directory.Exists(FilesPath))
+			{
+				Directory.CreateDirectory(FilesPath);
+			}
+		}
 
-        public void Save<T>(T model, ModelType modelType)
-        {
-            var data = Load<T>(modelType);
+		public void Save<T>(T model, ModelType modelType)
+		{
+			var data = Load<T>(modelType);
 
-            if (data != null)
-            {
-                data.Add(model);
-            }
-            else
-            {
-                data = new List<T>() { model };
-            }
+			if (data != null)
+			{
+				data.Add(model);
+			}
+			else
+			{
+				data = new List<T>() { model };
+			}
+			try
+			{
 
-            using (StreamWriter file = File.CreateText(Path.Combine(FilesPath, string.Concat(modelType.ToString(), ".json"))))
-            {
-                var serializer = new JsonSerializer();
-                serializer.Serialize(file, data);
-            }
-        }
+				using (StreamWriter file = File.CreateText(GetJsonFileName<T>(modelType)))
+				{
+					var serializer = new JsonSerializer();
+					serializer.Serialize(file, data);
+				}
+				MessageBox.Show("Successfully saved", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"{ex.Message}; {ex.InnerException.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
 
-        public IList<T> Load<T>(ModelType modelType)
-        {
-            if (!File.Exists(Path.Combine(FilesPath, string.Concat(modelType.ToString(), ".json"))))
-            {
-                return null;
-            }
-            var result = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(Path.Combine(FilesPath, string.Concat(modelType.ToString(), ".json"))));
-            return result;
-        }
-    }
+		private string GetJsonFileName<T>(ModelType modelType)
+		{
+			return Path.Combine(FilesPath, string.Concat(modelType.ToString().ToLower(), ".json"));
+		}
+
+		public IList<T> Load<T>(ModelType modelType)
+		{
+			if (!File.Exists(Path.Combine(FilesPath, string.Concat(modelType.ToString(), ".json"))))
+			{
+				return null;
+			}
+			var result = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(GetJsonFileName<T>(modelType)));
+			return result;
+		}
+	}
 }

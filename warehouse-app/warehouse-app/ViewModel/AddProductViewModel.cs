@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,6 +17,7 @@ namespace warehouse_app.ViewModel
         public AddProductViewModel()
         {
             _product = new Product();
+	        Categories = DataCache.Instance().Categories;
         }
 
         public ICommand SaveProductCommand => _saveProductCommand ??
@@ -29,7 +31,8 @@ namespace warehouse_app.ViewModel
         private void ExecuteSaveProduct()
         {
             WarehouseManager.Save(_product, ModelType.Products);
-        }
+			Clear();
+		}
 
         public string Name
         {
@@ -37,13 +40,31 @@ namespace warehouse_app.ViewModel
             set
             {
                 _product.Name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(Name));
                 _saveProductCommand.RaiseCanExecuteChanged();
             }
-        }
+		}
 
+		private void Clear()
+		{
+			Name = string.Empty;
+			SelectedCategory = null;
+		}
 
-        private string errorMessage = string.Empty;
+		public IEnumerable<Category> Categories { get; }
+
+	    public Category SelectedCategory
+		{
+			get { return _product.Category; }
+			set
+			{
+				_product.Category = value;
+				OnPropertyChanged(nameof(SelectedCategory));
+				_saveProductCommand.RaiseCanExecuteChanged();
+			}
+		}
+
+		private string errorMessage = string.Empty;
 
         public string this[string columnName]
         {
