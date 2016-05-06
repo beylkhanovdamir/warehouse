@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using warehouse_app.DataAccess;
 using warehouse_app.Model;
 
 namespace warehouse_app.ViewModel
@@ -17,7 +15,6 @@ namespace warehouse_app.ViewModel
         public AddProductViewModel()
         {
             _product = new Product();
-	        Categories = DataCache.Instance().Categories;
         }
 
         public ICommand SaveProductCommand => _saveProductCommand ??
@@ -50,8 +47,6 @@ namespace warehouse_app.ViewModel
 			Name = string.Empty;
 			SelectedCategory = null;
 		}
-
-		public IEnumerable<Category> Categories { get; }
 
 	    public Category SelectedCategory
 		{

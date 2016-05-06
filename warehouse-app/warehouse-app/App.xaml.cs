@@ -12,8 +12,6 @@ namespace warehouse_app
     {
         public string FilesPath => ConfigurationManager.AppSettings.Get("jsonPath");
 
-        public ObjectCache Cache = MemoryCache.Default;
-
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             IocKernel.Initialize(new CustomBindings());

@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:local="clr-namespace:warehouse_app.ViewModel"
+        xmlns:dataAccess="clr-namespace:warehouse_app.DataAccess"
         WindowStartupLocation="CenterScreen"
         Title="{Binding AppTitle}"
         mc:Ignorable="d"
-        Height="350" Width="525">
+        Height="400" Width="600">
     <Window.Resources>
         <DataTemplate x:Key="AutoCompleteBoxItemTemplate">
             <StackPanel Orientation="Horizontal">
@@ -18,18 +19,18 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
+        <!--<ProgressBar Height="18" Width="200" IsIndeterminate="{Binding Source=(dataAccess:DataCache.Instance), Path=SyncData, UpdateSourceTrigger=PropertyChanged}">
+        </ProgressBar>-->
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Добавить категорию" Command="{Binding Path=AddCategoryCommand}"/>
                 <MenuItem Header="_Добавить продукт" Command="{Binding Path=AddProductCommand}"/>
-                <MenuItem Header="_Синхронизировать данные" Command="{x:Static local:WindowViewModel.SyncCommand}"></MenuItem>
             </Menu>
             <StackPanel Orientation="Vertical" Margin="10">
-                <TextBlock Text="Введение название товара:"/>
-                <toolkit:AutoCompleteBox  ItemsSource="{Binding Products}"
+                <TextBlock Text="Введение название или категорию товара:"/>
+                <toolkit:AutoCompleteBox  ItemsSource="{Binding Source={x:Static dataAccess:DataCache.Instance}, Path=Products}"
     SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" ValueMemberPath="Name"
     ItemTemplate="{StaticResource AutoCompleteBoxItemTemplate}" ItemFilter="{Binding ProductFilter}"></toolkit:AutoCompleteBox>
-                <Button Content="Добавить" Command="{Binding Path=AddProductCommand}" HorizontalAlignment="Right" Width="90" Height="35" Margin="0,5,0,0"></Button>
             </StackPanel>
         </DockPanel>
 

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:warehouse_app"
         xmlns:viewModel="clr-namespace:warehouse_app.ViewModel"
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        xmlns:dataAccess="clr-namespace:warehouse_app.DataAccess"
         mc:Ignorable="d"  ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowState="Normal"
         Title="Добавление продукта" Height="300" Width="300">
     <Window.Resources>
@@ -21,12 +22,12 @@
             <TextBox Text="{Binding Path=Name, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged,
     NotifyOnValidationError=True}" Height="25"></TextBox>
             <TextBlock Text="Выберите категорию"></TextBlock>
-            <controls:AutoCompleteBox  ItemsSource="{Binding Categories}"
+            <controls:AutoCompleteBox  ItemsSource="{Binding Source={x:Static dataAccess:DataCache.Instance}, Path=Categories}"
     SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" ValueMemberPath="CategoryName"
     ItemTemplate="{StaticResource AutoCompleteBoxItemTemplate}" ItemFilter="{Binding CategoryFilter}"></controls:AutoCompleteBox>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
                 <Button Content="Сохранить" Height="35" Width="90" Command="{Binding Path=SaveProductCommand}"></Button>
-                <Button Content="Отмена" Margin="5,0,0,0" Height="35" Width="90" Command="{x:Static viewModel:WindowViewModel.CloseCommand}"
+                <Button Content="Закрыть" Margin="5,0,0,0" Height="35" Width="90" Command="{x:Static viewModel:WindowViewModel.CloseCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></Button>
             </StackPanel>
         </StackPanel>

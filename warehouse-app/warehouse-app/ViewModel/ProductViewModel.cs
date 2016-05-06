@@ -16,15 +16,14 @@ namespace warehouse_app.ViewModel
         private DelegateCommand _addCategoryCommand;
 
 
-        #endregion
+		#endregion
 
-        #region ctor
-
-        public ProductViewModel()
+		#region ctor
+		public ProductViewModel()
         {
 			this._product = new Product();
-			DataCache.Instance().Sync();
-			Products = DataCache.Instance().Products;
+			DataCache.Instance.Sync();
+			DataCache.Instance.TimerStart();
 		}
         #endregion
 
@@ -87,7 +86,7 @@ namespace warehouse_app.ViewModel
 
         #region Public props
 
-        public string Name
+	    public string Name
         {
             get { return _product.Name; }
             set { _product.Name = value; }
@@ -98,8 +97,6 @@ namespace warehouse_app.ViewModel
             get { return _product.Category; }
             set { _product.Category = value; }
         }
-
-	    public IEnumerable<Product> Products { get; }
 
         public Product SelectedProduct { get; set; }
 

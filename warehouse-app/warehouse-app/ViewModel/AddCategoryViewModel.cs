@@ -1,10 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using Ninject;
-using warehouse_app.DataAccess;
 using warehouse_app.Model;
 
 namespace warehouse_app.ViewModel

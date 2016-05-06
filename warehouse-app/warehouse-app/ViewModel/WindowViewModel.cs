@@ -20,7 +20,7 @@ namespace warehouse_app.ViewModel
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private readonly AppSettings _appSettings;
+	    private readonly AppSettings _appSettings;
 
         public string AppTitle => _appSettings.AppTitle;
 
@@ -30,7 +30,7 @@ namespace warehouse_app.ViewModel
         }
 
         public static readonly ICommand SyncCommand =
-        new RelayCommand(o => DataCache.Instance().Sync());
+        new RelayCommand(o => DataCache.Instance.Sync());
         
         public static readonly ICommand CloseCommand =
         new RelayCommand(o => ((Window)o).Close());
