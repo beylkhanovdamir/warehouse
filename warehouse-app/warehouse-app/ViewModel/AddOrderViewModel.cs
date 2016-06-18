@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Globalization;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
@@ -10,16 +11,27 @@ namespace warehouse_app.ViewModel
 {
 	public class AddOrderViewModel : WindowViewModel, IDataErrorInfo
 	{
-		private readonly Order _order;
-		private List<OrderPosition> _orderPositions;
+		private Order _order;
 		private DelegateCommand _newOrderPositionCommand;
 		private DelegateCommand _saveOrderCommand;
 
 		public AddOrderViewModel()
 		{
 			_order = new Order();
+			OrderPositions = new List<OrderPosition>();
+			SelectedPosition = new OrderPosition() { Overage = Convert.ToInt32(ConfigurationManager.AppSettings.Get("overage"))};
 		}
 
+		public Order Order
+		{
+			get { return _order; }
+			set
+			{
+				_order = value;
+				OnPropertyChanged(nameof(Order));
+				_newOrderPositionCommand.RaiseCanExecuteChanged();
+			}
+		}
 
 		public ICommand NewOrderPositionCommand => _newOrderPositionCommand ??
 								   (_newOrderPositionCommand = new DelegateCommand(ExecuteNewPosition, CanNewPosition));
@@ -31,7 +43,7 @@ namespace warehouse_app.ViewModel
 
 		private void ExecuteNewPosition()
 		{
-			WarehouseManager.Save(_order, ModelType.Orders);
+			OrderPositions.Add(SelectedPosition);
 		}
 
 		public ICommand SaveOrderCommand => _saveOrderCommand ??
@@ -50,42 +62,21 @@ namespace warehouse_app.ViewModel
 			{
 				selectedPosition = value;
 				OnPropertyChanged(nameof(SelectedPosition));
-				_newOrderPositionCommand.RaiseCanExecuteChanged();
-			}
-		}
-
-		private Product _selectedProduct;
-		public Product SelectedProduct
-		{
-			get { return SelectedPosition.Product; }
-			set
-			{
-				_selectedProduct = value;
-				OnPropertyChanged(nameof(_selectedProduct));
-				_newOrderPositionCommand.RaiseCanExecuteChanged();
 			}
 		}
 
 		private void ExecuteSaveOrder()
 		{
+			// todo: OrderPositions get all positions
 			WarehouseManager.Save(_order, ModelType.Orders);
 		}
 
 		public string OrderNumber => $"Накладная № {_order.Id}";
 
 
-		public string OrderDate => _order.OrderDate.ToString(CultureInfo.InvariantCulture);
+		public string OrderDate => _order.OrderDate.ToString("d");
 
-		public List<OrderPosition> OrderPositions
-		{
-			get { return _orderPositions; }
-			set
-			{
-				_orderPositions = value;
-				OnPropertyChanged(nameof(OrderPositions));
-				_saveOrderCommand.RaiseCanExecuteChanged();
-			}
-		}
+		public List<OrderPosition> OrderPositions { get; set; }
 
 		private string errorMessage = string.Empty;
 

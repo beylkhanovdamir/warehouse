@@ -13,10 +13,5 @@ namespace warehouse_app
 			InitializeComponent();
 		}
 
-		private void DataGrid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
-		{
-			if (e.Column.Header.ToString() == "Id")
-			{ e.Column.Visibility = Visibility.Collapsed; }
-		}
 	}
 }
