@@ -1,6 +1,9 @@
 ﻿using System.Configuration;
+using System.Linq;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
 using System.Windows;
+using warehouse_app.DataAccess;
 using warehouse_app.ViewModel;
 
 namespace warehouse_app
@@ -15,8 +18,8 @@ namespace warehouse_app
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             IocKernel.Initialize(new CustomBindings());
-
-            MainWindow view = new MainWindow { DataContext = new ProductViewModel() };
+			DataCache.Instance.Sync();
+			MainWindow view = new MainWindow { DataContext = new ProductViewModel() };
             view.Show();
         }
     }

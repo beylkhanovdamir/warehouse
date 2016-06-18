@@ -3,6 +3,7 @@
     public enum ModelType
     {
         Products,
-        Categories
+        Categories,
+		Orders
     }
 }

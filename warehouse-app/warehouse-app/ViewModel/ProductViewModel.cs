@@ -13,23 +13,49 @@ namespace warehouse_app.ViewModel
         private readonly Product _product;
         //
         private DelegateCommand _addProductCommand;
-        private DelegateCommand _addCategoryCommand;
+		private DelegateCommand _addOrderCommand;
+		private DelegateCommand _addCategoryCommand;
 
 
 		#endregion
 
 		#region ctor
 		public ProductViewModel()
-        {
+		{
 			this._product = new Product();
 			DataCache.Instance.Sync();
 			DataCache.Instance.TimerStart();
 		}
-        #endregion
+		#endregion
 
-        #region Commands
+		#region Commands
 
-        public ICommand AddProductCommand
+		public ICommand AddOrderCommand
+		{
+			get
+			{
+				if (_addOrderCommand == null)
+				{
+					_addOrderCommand = new DelegateCommand(ExecuteAddOrder, CanExecuteAddOrder);
+				}
+				return _addOrderCommand;
+			}
+		}
+		private bool CanExecuteAddOrder()
+		{
+			// todo
+			return true;
+		}
+
+		private void ExecuteAddOrder()
+		{
+			// todo
+			var vm = new AddOrderViewModel();
+			AddOrder orderWindow = new AddOrder { DataContext = vm };
+			orderWindow.ShowDialog();
+		}
+
+		public ICommand AddProductCommand
         {
             get
             {
@@ -41,7 +67,7 @@ namespace warehouse_app.ViewModel
             }
         }
 
-        private bool CanExecuteAddProduct()
+		private bool CanExecuteAddProduct()
         {
             // todo
             return true;
@@ -88,8 +114,8 @@ namespace warehouse_app.ViewModel
 
 	    public string Name
         {
-            get { return _product.Name; }
-            set { _product.Name = value; }
+            get { return _product.ProductName; }
+            set { _product.ProductName = value; }
         }
 
         public Category Category
@@ -97,8 +123,6 @@ namespace warehouse_app.ViewModel
             get { return _product.Category; }
             set { _product.Category = value; }
         }
-
-        public Product SelectedProduct { get; set; }
 
         #endregion
 
@@ -110,7 +134,7 @@ namespace warehouse_app.ViewModel
                 return (searchText, obj) =>
                 {
                     var product = obj as Product;
-                    return product != null && (product.Name.ToLower().Contains(searchText.ToLower()) || (product.Category.CategoryName.ToLower().Contains(searchText.ToLower())));
+                    return product != null && (product.ProductName.ToLower().Contains(searchText.ToLower()) || (product.Category.CategoryName.ToLower().Contains(searchText.ToLower())));
                 };
             }
         }

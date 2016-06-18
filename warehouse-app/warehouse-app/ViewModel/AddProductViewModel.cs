@@ -33,10 +33,10 @@ namespace warehouse_app.ViewModel
 
         public string Name
         {
-            get { return _product.Name; }
+            get { return _product.ProductName; }
             set
             {
-                _product.Name = value;
+                _product.ProductName = value;
                 OnPropertyChanged(nameof(Name));
                 _saveProductCommand.RaiseCanExecuteChanged();
             }
@@ -48,7 +48,8 @@ namespace warehouse_app.ViewModel
 			SelectedCategory = null;
 		}
 
-	    public Category SelectedCategory
+
+		public Category SelectedCategory
 		{
 			get { return _product.Category; }
 			set
@@ -69,7 +70,7 @@ namespace warehouse_app.ViewModel
                 switch (columnName)
                 {
                     case nameof(Name):
-                        if (String.IsNullOrEmpty(_product.Name))
+                        if (String.IsNullOrEmpty(_product.ProductName))
                         {
                             errorMessage = "Product Name is required";
                         }

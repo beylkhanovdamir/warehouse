@@ -9,18 +9,18 @@ namespace warehouse_app.Model
     public class Product : INotifyPropertyChanged
     {
         public Guid Id => Guid.NewGuid();
-        private string _name;
+        private string _productName;
         private Category _category;
 
         [Required]
-        public string Name {
-            get { return _name; }
+        public string ProductName {
+            get { return _productName; }
             set
             {
-                if (_name != value)
+                if (_productName != value)
                 {
-                    _name = value;
-                    OnPropertyChanged(nameof(Name));
+					_productName = value;
+                    OnPropertyChanged(nameof(ProductName));
                 }
             }
         }

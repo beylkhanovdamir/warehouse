@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-        xmlns:local="clr-namespace:warehouse_app.ViewModel"
+        xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:dataAccess="clr-namespace:warehouse_app.DataAccess"
         WindowStartupLocation="CenterScreen"
         Title="{Binding AppTitle}"
@@ -13,7 +12,7 @@
     <Window.Resources>
         <DataTemplate x:Key="AutoCompleteBoxItemTemplate">
             <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding Name}" Width="200" FontWeight="Bold"/>
+				<Label Content="{Binding ProductName}" Width="200" FontWeight="Bold"/>
                 <Label Content="{Binding Category.CategoryName}" Foreground="DarkGray" />
             </StackPanel>
         </DataTemplate>
@@ -25,12 +24,10 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Добавить категорию" Command="{Binding Path=AddCategoryCommand}"/>
                 <MenuItem Header="_Добавить продукт" Command="{Binding Path=AddProductCommand}"/>
+				<MenuItem Header="_Новая накладная" Command="{Binding Path=AddOrderCommand}"/>
             </Menu>
             <StackPanel Orientation="Vertical" Margin="10">
-                <TextBlock Text="Введение название или категорию товара:"/>
-                <toolkit:AutoCompleteBox  ItemsSource="{Binding Source={x:Static dataAccess:DataCache.Instance}, Path=Products}"
-    SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" ValueMemberPath="Name"
-    ItemTemplate="{StaticResource AutoCompleteBoxItemTemplate}" ItemFilter="{Binding ProductFilter}"></toolkit:AutoCompleteBox>
+
             </StackPanel>
         </DockPanel>
 
