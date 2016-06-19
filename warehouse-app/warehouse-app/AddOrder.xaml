@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:warehouse_app.ViewModel"
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:dataAccess="clr-namespace:warehouse_app.DataAccess"
+        xmlns:model="clr-namespace:warehouse_app.Model"
         mc:Ignorable="d" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" WindowState="Normal"
         Title="Новая накладная" MinHeight="370" Height="370" Width="800" >
 	<Window.Resources>
@@ -24,15 +25,16 @@
 		<StackPanel Orientation="Vertical">
 			<TextBlock Margin="5 0 0 0" Text="{Binding Path=OrderNumber}" FontSize="17"></TextBlock>
 			<TextBlock Margin="5 0 0 0" Text="{Binding Path=OrderDate}" FontSize="12"></TextBlock>
-			<DataGrid ItemsSource="{Binding OrderPositions, Mode=TwoWay}" MinHeight="150" HorizontalAlignment="Stretch" IsReadOnly="True"
-      SelectedItem="{Binding SelectedPosition}" AutoGenerateColumns="False">
+			<DataGrid ItemsSource="{Binding OrderPositions}"  MinHeight="150" HorizontalAlignment="Stretch" IsReadOnly="True"
+    SelectedValue="{Binding SelectedPosition}" IsSynchronizedWithCurrentItem="True" EnableColumnVirtualization="True" SelectedItem="{Binding SelectedPosition}" AutoGenerateColumns="False">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="Продукт" Binding="{Binding Product.ProductName}" Width="150*"></DataGridTextColumn>
 					<DataGridTextColumn Header="Категория" Binding="{Binding Category.CategoryName}" Width="150*"></DataGridTextColumn>
 					<DataGridTextColumn Header="Кол-во" Binding="{Binding Qty}" Width="100*"></DataGridTextColumn>
-					<DataGridTextColumn Header="Ед.измерения" Binding="{Binding ProductUnit}" Width="150*"></DataGridTextColumn>
-					<DataGridTextColumn Header="Наценка" Binding="{Binding Overagee}" Width="100*"></DataGridTextColumn>
-					<DataGridTextColumn Header="Цена" Binding="{Binding Cost}" Width="100*"></DataGridTextColumn>
+					<DataGridTextColumn Header="Ед.измерения" Binding="{Binding ProductUnit.UnitName}" Width="150*"></DataGridTextColumn>
+					<DataGridTextColumn Header="Наценка" Binding="{Binding Overage}" Width="100*"></DataGridTextColumn>
+					<DataGridTextColumn Header="Закуп. цена" Binding="{Binding Cost}" Width="120*"></DataGridTextColumn>
+					<DataGridTextColumn Header="Итог. цена" Binding="{Binding CostWithOverage}" Width="120*"></DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>
 			<TextBlock HorizontalAlignment="Center" FontSize="17" Margin="0 5 0 0" Text="Введите данные по позиции:"></TextBlock>
@@ -44,40 +46,47 @@
 					<ColumnDefinition Width="5*" />
 					<ColumnDefinition Width="5*" />
 					<ColumnDefinition Width="5*" />
+					<ColumnDefinition Width="5*" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Orientation="Vertical" Grid.Column="0">
 					<TextBlock Text="Продукт:"></TextBlock>
 					<controls:AutoCompleteBox ItemsSource="{Binding Source={x:Static dataAccess:DataCache.Instance}, Path=Products}"
-    SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" ValueMemberPath="ProductName" Height="25"
+    SelectedItem="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueMemberPath="ProductName" Height="25"
     ItemTemplate="{StaticResource AutoCompleteBoxItemTemplate}" ItemFilter="{Binding ProductFilter}"></controls:AutoCompleteBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="1">
 					<TextBlock Text="Категория:"></TextBlock>
 					<controls:AutoCompleteBox ItemsSource="{Binding Source={x:Static dataAccess:DataCache.Instance}, Path=Categories}"
-    SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" ValueMemberPath="CategoryName" Height="25"
+    SelectedItem="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueMemberPath="CategoryName" Height="25"
     ItemTemplate="{StaticResource AutoCompleteBoxCategoryTemplate}" ItemFilter="{Binding CategoryFilter}"></controls:AutoCompleteBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="2">
 					<TextBlock Text="Кол-во:"></TextBlock>
-					<TextBox Text="{Binding Qty}" Height="25"></TextBox>
+					<TextBox Text="{Binding Qty, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25"></TextBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="3">
 					<TextBlock Text="Ед.измер.:"></TextBlock>
-					<ComboBox ItemsSource="{Binding Path=Units}" Height="25" DisplayMemberPath="UnitName" SelectedItem="{Binding ProductUnit}"></ComboBox>
+					<ComboBox  ItemsSource="{Binding Source={x:Static model:Units.ProductUnits}, Mode=OneWay}" SelectedIndex="1" Height="25" DisplayMemberPath="UnitName" SelectedItem="{Binding ProductUnit, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True,  UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding Path=ProductUnit}"></ComboBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="4">
 					<TextBlock Text="Наценка (%):"></TextBlock>
-					<TextBox Text="{Binding Overage}" Height="25"></TextBox>
+					<TextBox Text="{Binding Overage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25"></TextBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="5">
+					<TextBlock Text="Закуп. цена:"></TextBlock>
+					<TextBox Text="{Binding Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25"></TextBox>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Grid.Column="6">
 					<TextBlock Text="Итог. цена:"></TextBlock>
-					<TextBox Text="{Binding Cost}" Height="25"></TextBox>
+					<TextBlock Text="{Binding CostWithOverage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="15" Height="25" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
 				</StackPanel>
 			</Grid>
 		</StackPanel>
 		<DockPanel Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom">
 			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
 				<Button Command="{Binding NewOrderPositionCommand}" Height="35" Width="130" Content="Добавить позицию"></Button>
+				<Button Command="{Binding SaveOrderPositionCommand}" Height="35" Width="130" Content="Сохранить позицию"></Button>
+				<Button Command="{Binding DeleteOrderPositionCommand}" Height="35" Width="130" Content="Удалить позицию"></Button>
 				<Button Command="{Binding SaveOrderCommand}" Margin="5,0,0,0"  Height="35" Width="130" Content="Оформить накладную"></Button>
 				<Button Content="Закрыть" Margin="5,0,0,0" Height="35" Width="130" Command="{x:Static local:WindowViewModel.CloseCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></Button>
