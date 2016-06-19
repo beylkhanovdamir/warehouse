@@ -46,6 +46,26 @@ namespace warehouse_app.ViewModel
 			}
 		}
 
+		private decimal _orderSum;
+
+		public decimal OrderSum
+		{
+			get
+			{
+				return _orderSum;
+			}
+			set
+			{
+				_orderSum = value;
+				OnPropertyChanged(nameof(OrderSum));
+			}
+		}
+
+		private void UpdateSum()
+		{
+			OrderSum = OrderPositions.Sum(x => x.CostWithOverage);
+		}
+
 		private bool CanSavePosition()
 		{
 			return SaveIsAllowed;
@@ -156,7 +176,10 @@ namespace warehouse_app.ViewModel
 				Qty = 0,
 				Overage = Convert.ToInt32(ConfigurationManager.AppSettings.Get("overage"))
 			};
+
 			CheckExecute();
+
+			UpdateSum();
 		}
 
 		private bool CanNewPosition()
@@ -179,6 +202,8 @@ namespace warehouse_app.ViewModel
 			SelectedPosition.PropertyChanged += SelectedPosition_PropertyChanged;
 
 			CheckExecute();
+
+			UpdateSum();
 		}
 
 		private void CheckExecute()

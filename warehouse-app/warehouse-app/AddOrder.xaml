@@ -37,16 +37,21 @@
 					<DataGridTextColumn Header="Итог. цена" Binding="{Binding CostWithOverage}" Width="120*"></DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>
+			<StackPanel Orientation="Horizontal" Margin="0 5 0 0" HorizontalAlignment="Right">
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Text="Итого: "></TextBlock>
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Text="{Binding OrderSum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold"></TextBlock>
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Text=" руб. " FontWeight="Bold"></TextBlock>
+			</StackPanel>
 			<TextBlock HorizontalAlignment="Center" FontSize="17" Margin="0 5 0 0" Text="Введите данные по позиции:"></TextBlock>
 			<Grid DataContext="{Binding SelectedPosition}" Margin="0 5 0 0" >
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="10*" />
 					<ColumnDefinition Width="10*" />
-					<ColumnDefinition Width="12*" />
 					<ColumnDefinition Width="5*" />
 					<ColumnDefinition Width="5*" />
-					<ColumnDefinition Width="5*" />
-					<ColumnDefinition Width="5*" />
+					<ColumnDefinition Width="7*" />
+					<ColumnDefinition Width="9*" />
+					<ColumnDefinition Width="9*" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Orientation="Vertical" Grid.Column="0">
 					<TextBlock Text="Продукт:"></TextBlock>
@@ -73,11 +78,11 @@
 					<TextBox Text="{Binding Overage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25"></TextBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="5">
-					<TextBlock Text="Закуп. цена:"></TextBlock>
+					<TextBlock Text="Закуп. цена, руб.:"></TextBlock>
 					<TextBox Text="{Binding Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25"></TextBox>
 				</StackPanel>
 				<StackPanel Orientation="Vertical" Grid.Column="6">
-					<TextBlock Text="Итог. цена:"></TextBlock>
+					<TextBlock Text="Итог. цена, руб.:"></TextBlock>
 					<TextBlock Text="{Binding CostWithOverage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="15" Height="25" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
 				</StackPanel>
 			</Grid>
@@ -85,8 +90,8 @@
 		<DockPanel Dock="Bottom" HorizontalAlignment="Right" VerticalAlignment="Bottom">
 			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,5,0,0">
 				<Button Command="{Binding NewOrderPositionCommand}" Height="35" Width="130" Content="Добавить позицию"></Button>
-				<Button Command="{Binding SaveOrderPositionCommand}" Height="35" Width="130" Content="Сохранить позицию"></Button>
-				<Button Command="{Binding DeleteOrderPositionCommand}" Height="35" Width="130" Content="Удалить позицию"></Button>
+				<Button Command="{Binding SaveOrderPositionCommand}" Margin="5,0,0,0"  Height="35" Width="130" Content="Сохранить позицию"></Button>
+				<Button Command="{Binding DeleteOrderPositionCommand}" Margin="5,0,0,0"  Height="35" Width="130" Content="Удалить позицию"></Button>
 				<Button Command="{Binding SaveOrderCommand}" Margin="5,0,0,0"  Height="35" Width="130" Content="Оформить накладную"></Button>
 				<Button Content="Закрыть" Margin="5,0,0,0" Height="35" Width="130" Command="{x:Static local:WindowViewModel.CloseCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></Button>
