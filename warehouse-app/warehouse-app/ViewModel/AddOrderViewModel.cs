@@ -16,12 +16,32 @@ namespace warehouse_app.ViewModel
 		private DelegateCommand _newOrderPositionCommand;
 		private DelegateCommand _saveOrderCommand;
 		private DelegateCommand _saveOrderPositionCommand;
+		private DelegateCommand _deleteOrderPositionCommand;
 		public ICommand NewOrderPositionCommand => _newOrderPositionCommand ??
 								   (_newOrderPositionCommand = new DelegateCommand(ExecuteNewPosition, CanNewPosition));
 
 		public ICommand SaveOrderPositionCommand => _saveOrderPositionCommand ??
 						   (_saveOrderPositionCommand = new DelegateCommand(SavePosition, CanSavePosition));
+		public ICommand DeleteOrderPositionCommand => _deleteOrderPositionCommand ??
+						   (_deleteOrderPositionCommand = new DelegateCommand(DeletePosition, CanDeletePosition));
 
+		private void DeletePosition()
+		{
+			if (SelectedPosition != null && OrderPositions.Contains(SelectedPosition))
+			{
+				OrderPositions.Remove(SelectedPosition);
+				InitData();
+				if (OrderPositions.Any())
+				{
+					SelectedPosition = OrderPositions.First();
+				}
+			}
+		}
+
+		private bool CanDeletePosition()
+		{
+			return SelectedPosition != null && OrderPositions.Contains(SelectedPosition);
+		}
 
 		public AddOrderViewModel()
 		{
@@ -190,6 +210,11 @@ namespace warehouse_app.ViewModel
 		private void ExecuteNewPosition()
 		{
 			OrderPositions.Add(SelectedPosition);
+			InitData();
+		}
+
+		private void InitData()
+		{
 			SelectedPosition = new OrderPosition
 			{
 				ProductUnit = Units.ProductUnits[0],
@@ -213,6 +238,10 @@ namespace warehouse_app.ViewModel
 				_saveOrderPositionCommand.RaiseCanExecuteChanged();
 			if (!OrderPositions.Contains(SelectedPosition))
 				_newOrderPositionCommand.RaiseCanExecuteChanged();
+			if (OrderPositions.Contains(SelectedPosition))
+			{
+				_deleteOrderPositionCommand.RaiseCanExecuteChanged();
+			}
 		}
 
 		public ICommand SaveOrderCommand => _saveOrderCommand ??
