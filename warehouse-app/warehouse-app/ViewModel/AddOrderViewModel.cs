@@ -242,6 +242,7 @@ namespace warehouse_app.ViewModel
 			{
 				_deleteOrderPositionCommand.RaiseCanExecuteChanged();
 			}
+			_saveOrderCommand.RaiseCanExecuteChanged();
 		}
 
 		public ICommand SaveOrderCommand => _saveOrderCommand ??
@@ -249,7 +250,7 @@ namespace warehouse_app.ViewModel
 
 		private bool CanSaveOrder()
 		{
-			return OrderPositions.Contains(SelectedPosition) && SaveIsAllowed;
+			return OrderPositions.Any();
 		}
 
 		private OrderPosition _selectedPosition;
@@ -274,7 +275,7 @@ namespace warehouse_app.ViewModel
 
 		private void ExecuteSaveOrder()
 		{
-			// todo: OrderPositions get all positions
+			_order.OrderPositions = OrderPositions.ToList();
 			WarehouseManager.Save(_order, ModelType.Orders);
 		}
 
