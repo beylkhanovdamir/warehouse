@@ -45,6 +45,7 @@ namespace warehouse_app.ViewModel
 		private void Clear()
 		{
 			Name = string.Empty;
+			_product.Category.CategoryName = String.Empty;
 			SelectedCategory = null;
 		}
 

@@ -45,11 +45,11 @@ namespace warehouse_app.DataAccess
 					var serializer = new JsonSerializer();
 					serializer.Serialize(file, data);
 				}
-				MessageBox.Show("Successfully saved", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"{ex.Message}; {ex.InnerException.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				//todo add log
+				//MessageBox.Show($"Ошибка. {ex.Message}; {ex.InnerException.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
